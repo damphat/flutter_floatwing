@@ -492,6 +492,8 @@ class FloatWindow(
 
         companion object {
 
+
+
             fun from(data: Map<String, *>): Config {
                 val cfg = Config()
 
@@ -499,19 +501,18 @@ class FloatWindow(
                 cfg.entry = data["entry"] as String?
                 cfg.route = data["route"] as String?
 
-                val int_callback = data["callback"] as Int?
-                cfg.callback = int_callback?.toLong()
+                cfg.callback = data["callback"]?.asLong()
 
                 cfg.autosize = data["autosize"] as Boolean?
 
-                cfg.width = data["width"] as Int?
-                cfg.height = data["height"] as Int?
-                cfg.x = data["x"] as Int?
-                cfg.y = data["y"] as Int?
+                cfg.width = data["width"]?.asInt()
+                cfg.height = data["height"]?.asInt()
+                cfg.x = data["x"]?.asInt()
+                cfg.y = data["y"]?.asInt()
 
-                cfg.gravity = data["gravity"] as Int?
-                cfg.format = data["format"] as Int?
-                cfg.type = data["type"] as Int?
+                cfg.gravity = data["gravity"]?.asInt()
+                cfg.format = data["format"]?.asInt()
+                cfg.type = data["type"]?.asInt()
 
                 cfg.clickable = data["clickable"] as Boolean?
                 cfg.draggable = data["draggable"] as Boolean?
@@ -526,4 +527,19 @@ class FloatWindow(
         }
     }
 
+}
+
+
+fun Any.asInt() : Int? {
+    if(this == null) return null;
+    if (this is Int) return this;
+    if (this is Long) return this.toInt();
+    throw IllegalArgumentException("Can not convert $this toInt");
+}
+
+fun Any.asLong() : Long? {
+    if(this == null) return null;
+    if (this is Long) return this;
+    if (this is Int) return this.toLong();
+    throw IllegalArgumentException("Can not convert $this toInt");
 }
